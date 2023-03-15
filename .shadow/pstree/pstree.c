@@ -5,6 +5,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <sys/types.h>
+#include <assert.h>
 
 #define MAXPROC 32768
 struct Proc{
