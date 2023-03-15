@@ -34,15 +34,15 @@ void Print(pid_t pid, int depth){
     int sz = procs[pid]->childnum;
     char out[1024] = "";
     sprintf(out, "%s(%d)", procs[pid]->name, pid);
-    depth += strlen(out);
+    int tmp = depth + strlen(out);
     // depth += strlen()
     if(procs[procs[pid]->cpid[0]] == NULL)
       return;
     printf("--%s(%d)", procs[procs[pid]->cpid[0]]->name, procs[pid]->cpid[0]);
     for(int i = 1;i < sz;++i){
-      print_aux(depth);
+      print_aux(tmp);
       printf("--");
-      Print(procs[pid]->cpid[i], depth);
+      Print(procs[pid]->cpid[i], depth + strlen(procs[pid]->name));
       printf("\n");
       fflush(stdout);
     }  
