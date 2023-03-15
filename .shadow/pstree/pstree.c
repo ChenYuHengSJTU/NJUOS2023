@@ -90,7 +90,7 @@ void getthread(const char* dir, pid_t pid){
 void getchild(const char* dir, pid_t pid){
   char task[64] = "";
 
-  sprintf(task, "%s/task/%d\0", dir, pid);
+  sprintf(task, "%s/task/%d", dir, pid);
   // strncpy(task, dir, 32);
   // strncat(task, "task\0", 5);
   // strncat(task, itoa(pid), 5);
@@ -111,7 +111,7 @@ void getchild(const char* dir, pid_t pid){
       if(strcmp(entry->d_name, "children") == 0){
         FILE * fp = fopen(entry->d_name, "r");
         pid_t child[MAXPROC];
-        int cnt;
+        int cnt = 0;
 
         if(fp == NULL)
           perror("open file error");
