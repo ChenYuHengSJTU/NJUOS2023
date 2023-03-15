@@ -34,7 +34,7 @@ void Print(pid_t pid, int depth){
     int sz = procs[pid]->childnum;
     char out[1024] = "";
     sprintf(out, "%s(%d)", procs[pid]->name, pid);
-    int tmp = depth + strlen(out) + 3;
+    int tmp = depth + strlen(out);
     // depth += strlen()
     if(procs[procs[pid]->cpid[0]] == NULL)
       return;
