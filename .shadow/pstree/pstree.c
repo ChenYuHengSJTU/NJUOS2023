@@ -120,7 +120,7 @@ void getchild(const char* dir, pid_t pid){
 
   while((entry = readdir(dp)) != NULL){
     lstat(entry->d_name, &statbuf);
-    if(S_ISREG(statbuf.st_mode)){
+    // if(S_ISREG(statbuf.st_mode)){
       if(strcmp(entry->d_name, "children") == 0){
         FILE * fp = fopen(entry->d_name, "r");
         pid_t child[MAXPROC];
@@ -140,7 +140,7 @@ void getchild(const char* dir, pid_t pid){
         printf("pid[%d] has %d children\n", pid, cnt);
         fflush(stdout);
         return;
-      }
+      // }
     }
   }
 }
