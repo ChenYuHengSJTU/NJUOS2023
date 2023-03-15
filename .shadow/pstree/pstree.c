@@ -38,7 +38,8 @@ void Print(pid_t pid, int depth){
     // depth += strlen()
     if(procs[procs[pid]->cpid[0]] == NULL)
       return;
-    printf("-|-%s(%d)", procs[procs[pid]->cpid[0]]->name, procs[pid]->cpid[0]);
+    // printf("-|-%s(%d)", procs[procs[pid]->cpid[0]]->name, procs[pid]->cpid[0]);
+    printf("-|-");
     Print(procs[pid]->cpid[0], 0);
     for(int i = 1;i < sz;++i){
       print_aux(tmp);
