@@ -9,6 +9,7 @@
 #include <stdbool.h>
 
 #define MAXPROC 32768
+#define SIZE(A) (sizeof(A) / sizeof(pid_t))
 struct Proc{
   // int pid;
   char name[32];
@@ -24,7 +25,13 @@ void print_aux(int t){
 }
 
 void Print(pid_t pid, int depth){
-  // printf("%s(%d)", procs[pid]->name, procs[pid]->cpid);
+  printf("%*s(%d)", depth, procs[pid]->name, pid);
+  
+  if(procs[pid]->cpid != NULL){
+    int sz = SIZE((procs[pid]->cpid));
+    for(int i = 0;i < sz;++i)
+      Print(procs[pid]->cpid[i], depth + 2);
+  }
 }
 
 
@@ -154,7 +161,7 @@ void getproc(const char* dir){
             pid_t pid;
             if(isProc(entry->d_name)){
               pid = atoi(entry->d_name);
-              printf("%s ", entry->d_name);
+              // printf("%s ", entry->d_name);
 
               // printf("traverse to pid[%d]\n", pid);
               // printf("%d ", pid);
