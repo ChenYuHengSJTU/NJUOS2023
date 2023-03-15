@@ -152,7 +152,7 @@ void getprocinfo(const char* dir, pid_t pid){
         fprintf(stderr, "cannot open folder %s\n", dir);
     }
 
-    chdir(dir);
+    // chdir(dir);
 
     while((entry = readdir(dp)) != NULL){
         lstat(entry->d_name, &statbuf);
@@ -163,8 +163,11 @@ void getprocinfo(const char* dir, pid_t pid){
             
           if(strcmp(entry->d_name, "stat") == 0){
             FILE* fp;
-            fp = fopen(entry->d_name, "r");
 
+            char filename[64];
+            sprintf(filename, "%s/%s", dir, entry->d_name);
+
+            fp = fopen(filename, "r");
             if(fp == NULL){
                 fprintf(stderr, "cannot open file %s/%s\n", dir, entry->d_name);
             }
@@ -177,6 +180,7 @@ void getprocinfo(const char* dir, pid_t pid){
             strncpy(procs[pid]->name, info, 32);
 
             fclose(fp);
+            return;
           }
         }
     }
