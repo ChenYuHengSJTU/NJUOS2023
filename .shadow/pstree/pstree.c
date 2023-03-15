@@ -6,17 +6,127 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <assert.h>
+#include <stdbool.h>
 
 #define MAXPROC 32768
 struct Proc{
-  int pid;
+  // int pid;
   char name[32];
-  int* fpid;
+  int childnum;
+  pid_t* cpid;
+  pid_t* tpid;
 };
 
-struct Proc procs[MAXPROC];
+struct Proc* procs[MAXPROC];
 
-void traverse(char* dir, int depth){
+void print_aux(int t){
+
+}
+
+void Print(pid_t pid, int depth){
+  printf("%s(%d)", procs[pid]->name, procs[pid]->cpid);
+}
+
+
+bool isProc(const char* pid){
+  int len = strlen(pid);
+
+  for(int i = 0;i < len;+i){
+    if(pid[i] < '0' || pid[i] > '9')
+      return false;
+  }
+
+  return true;
+}
+
+void getthread(const char* dir, pid_t pid){
+    DIR* dp = NULL;
+    struct dirent* entry;
+    struct stat statbuf;
+
+    char task[64] = "";
+    strncpy(task, dir, 32);
+
+    strncat(task, "task\0", 5);
+
+    dp = opendir(task);
+    
+    if(dp == NULL){
+        fprintf(stderr, "cannot open folder %s\n", dir);
+    }
+
+    pid_t thread[MAXPROC];
+    int cnt = 0;
+
+    while((entry = readdir(dp)) != NULL){
+        lstat(entry->d_name, &statbuf);
+        if(S_ISDIR(statbuf.st_mode)){
+            if(strcmp(".", entry->d_name) == 0 || strcmp("..", entry->d_name) == 0){
+                continue;
+            }
+            // printf("%*s%s/\n", depth, "", entry->d_name);
+            // traverse(entry->d_name, depth + 4);
+            pid_t tpid;
+            if(isProc(entry->d_name)){
+              tpid = atoi(entry->d_name);
+              thread[cnt++] = tpid;
+            }
+        }
+    }
+
+    procs[pid]->tpid = (pid_t*)malloc(sizeof(pid_t) * cnt);
+    if(procs[pid]->tpid == NULL)
+      perror("get thread malloc error");
+
+    memcpy(procs[pid]->tpid, thread, sizeof(int) * cnt);
+
+    printf("pid[%d] has following threads:", cnt);
+    for(int i = 0;i < cnt;++i)
+      printf("%d ", procs[pid]->tpid[i]);
+
+    fflush(stdout);
+}
+
+void getchild(const char* dir, pid_t pid){
+  char task[64] = "";
+
+  strncpy(task, dir, 32);
+  strncat(task, "task\0", 5);
+  strncat(task, itoa(pid), 5);
+  
+  DIR* dp = NULL;
+  struct dirent* entry;
+  struct stat statbuf;
+
+  dp = opendir(task);
+    
+  if(dp == NULL){
+      fprintf(stderr, "cannot open folder %s\n", dir);
+  }
+
+  while((entry = readdir(dp)) != NULL){
+    lstat(entry->d_name, &statbuf);
+    if(S_ISREG(statbuf.st_mode)){
+      if(strcmp(entry->d_name, "children") == 0){
+        FILE * fp = fopen(entry->d_name, "r");
+        pid_t child[MAXPROC];
+        int cnt;
+
+        if(fp == NULL)
+          perror("open file error");
+
+        while(fscanf(fp, "%d", &child[cnt]) != EOF){
+          cnt++;
+        }
+
+        procs[pid]->cpid = (pid_t*)malloc(sizeof(pid_t) * cnt);
+        memcpy(procs[pid]->cpid, child, cnt * sizeof(pid_t));
+      }
+    }
+  }
+}
+
+void getproc(const char* dir){
     DIR* dp = NULL;
     struct dirent* entry;
     struct stat statbuf;
@@ -27,7 +137,7 @@ void traverse(char* dir, int depth){
         fprintf(stderr, "cannot open folder %s\n", dir);
     }
 
-    chdir(dir);
+    // chdir(dir);
 
     while((entry = readdir(dp)) != NULL){
         lstat(entry->d_name, &statbuf);
@@ -36,32 +146,23 @@ void traverse(char* dir, int depth){
                 continue;
             }
             // printf("%*s%s/\n", depth, "", entry->d_name);
-            traverse(entry->d_name, depth + 4);
-        }
-        else{
-            // printf("%s\n", entry->d_name);
-            if(strcmp(entry->d_name, "stat") == 0){
-                // printf("find a stat");
-                FILE* fp;
-                fp = fopen(entry->d_name, "r");
+            // traverse(entry->d_name, depth + 4);
+            pid_t pid;
+            if(isProc(entry->d_name)){
+              pid = atoi(entry->d_name);
+              procs[pid] = (struct Proc*)malloc(sizeof(struct Proc));
+              assert(procs[pid] != NULL);
 
-                if(fp == NULL){
-                    fprintf(stderr, "cannot open file\n");
-                }
-
-                char info[1024] = "";
-                int pid, ppid;
-                char ch;
-                fscanf(fp, "%d (%[^)]) %c %d", &pid, info, &ch, &ppid);
-                // if(ppid != 0 && ppid != 93)
-                // printf("%d ", (int)ch);
-                // printf("%s[%d] --> %d\n", info, pid, ppid);
-
+              strncpy(procs[pid]->name, entry->d_name, 32);
+              
+              // read thread 
+              getthread(entry->d_name, pid);
+              getchild(entry->d_name, pid);
             }
         }
     }
 
-    chdir("..");
+    // chdir("..");
     closedir(dp);
 }
 
