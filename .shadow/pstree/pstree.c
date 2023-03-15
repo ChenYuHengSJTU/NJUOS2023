@@ -36,18 +36,26 @@ void Print(pid_t pid, int depth){
     sprintf(out, "%s(%d)", procs[pid]->name, pid);
     int tmp = depth + strlen(out);
     // depth += strlen()
-    if(procs[procs[pid]->cpid[0]] == NULL)
-      return;
+    assert(procs[procs[pid]->cpid[0] != NULL]);
+    // if(procs[procs[pid]->cpid[0]] == NULL)
+    //   return;
     // printf("-|-%s(%d)", procs[procs[pid]->cpid[0]]->name, procs[pid]->cpid[0]);
-    printf("-|-");
-    Print(procs[pid]->cpid[0], 0);
-    for(int i = 1;i < sz;++i){
-      print_aux(tmp);
+    // printf("-|-");
+    // Print(procs[pid]->cpid[0], 0);
+    for(int i = 0;i < sz;++i){
       printf("-|-");
+      if(i == 0){
+        Print(procs[pid]->cpid[0], 0);
+        continue;
+      }
+      // print_aux(tmp);
       Print(procs[pid]->cpid[i], depth + strlen(out) + 3);
       printf("\n");
       fflush(stdout);
     }  
+  }
+  else{
+    // printf("")
   }
 }
 
