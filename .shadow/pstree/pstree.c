@@ -48,8 +48,8 @@ void Print(pid_t pid, int depth){
         Print(procs[pid]->cpid[0], 0);
         continue;
       }
-      printf("-|-");
       print_aux(tmp);
+      printf("-|-");
       Print(procs[pid]->cpid[i], depth + strlen(out) + 3);
       printf("\n");
       fflush(stdout);
