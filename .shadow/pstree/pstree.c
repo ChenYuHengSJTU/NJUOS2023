@@ -128,9 +128,10 @@ void getchild(const char* dir, pid_t pid){
 
         if(fp == NULL){
           // perror("open file error");
-          fprintf(stderr, "cannot open dir %s\n", fp);
+          fprintf(stderr, "cannot open dir %s\n", entry->d_name);
           return;
         }
+        
         while(fscanf(fp, "%d", &child[cnt]) != EOF){
           cnt++;
         }
