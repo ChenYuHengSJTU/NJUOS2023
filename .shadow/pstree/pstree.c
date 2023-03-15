@@ -28,7 +28,6 @@ void print_aux(int t){
 }
 
 void Print(pid_t pid, int depth){
-  print_aux(depth);
   printf("%s(%d)", procs[pid]->name, pid);
   // printf("%*s%s(%d)", -depth, "", procs[pid]->name, pid);
   if(procs[pid]->cpid != NULL){
@@ -36,6 +35,7 @@ void Print(pid_t pid, int depth){
     depth += strlen(procs[pid]->name);
     printf("--%s", procs[procs[pid]->cpid[0]]->name);
     for(int i = 1;i < sz;++i){
+      print_aux(depth);
       printf("--");
       Print(procs[pid]->cpid[i], depth);
       printf("\n");
