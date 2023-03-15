@@ -23,7 +23,7 @@ struct Proc* procs[MAXPROC << 2];
 
 void print_aux(int t){
   for(int i = 0;i < t;++i)
-    printf("-");
+    printf(" ");
   fflush(stdout);
 }
 
@@ -33,8 +33,10 @@ void Print(pid_t pid, int depth){
   print_aux(depth);
   if(procs[pid]->cpid != NULL){
     int sz = procs[pid]->childnum;
+    depth += strlen(procs[pid]->name);
     for(int i = 0;i < sz;++i){
-      Print(procs[pid]->cpid[i], depth + 2);
+      printf("--");
+      Print(procs[pid]->cpid[i], depth);
       printf("\n");
       fflush(stdout);
     }  
