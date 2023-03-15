@@ -24,7 +24,7 @@ void print_aux(int t){
 }
 
 void Print(pid_t pid, int depth){
-  printf("%s(%d)", procs[pid]->name, procs[pid]->cpid);
+  // printf("%s(%d)", procs[pid]->name, procs[pid]->cpid);
 }
 
 
