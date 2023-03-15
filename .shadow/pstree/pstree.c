@@ -144,19 +144,19 @@ void getproc(const char* dir){
 
     while((entry = readdir(dp)) != NULL){
         lstat(entry->d_name, &statbuf);
-        // printf("%s\n", entry->d_name);
         if(S_ISDIR(statbuf.st_mode)){
             if(strcmp(".", entry->d_name) == 0 || strcmp("..", entry->d_name) == 0){
                 continue;
             }
             // printf("%*s%s/\n", depth, "", entry->d_name);
             // traverse(entry->d_name, depth + 4);
+            printf("%s ", entry->d_name);
             pid_t pid;
             if(isProc(entry->d_name)){
               pid = atoi(entry->d_name);
 
               // printf("traverse to pid[%d]\n", pid);
-              printf("%d ", pid);
+              // printf("%d ", pid);
               fflush(stdout);
 
               procs[pid] = (struct Proc*)malloc(sizeof(struct Proc));
