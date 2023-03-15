@@ -122,7 +122,7 @@ void getchild(const char* dir, pid_t pid){
     lstat(entry->d_name, &statbuf);
     // if(S_ISREG(statbuf.st_mode)){
       if(strcmp(entry->d_name, "children") == 0){
-        char* filename[512] = "";
+        char filename[512] = "";
         sprintf("%s/children", entry->d_name);
         FILE * fp = fopen(filename, "r");
         pid_t child[MAXPROC];
