@@ -164,7 +164,7 @@ void getprocinfo(const char* dir, pid_t pid){
           if(strcmp(entry->d_name, "stat") == 0){
             FILE* fp;
 
-            char filename[64];
+            char filename[512];
             sprintf(filename, "%s/%s", dir, entry->d_name);
 
             fp = fopen(filename, "r");
