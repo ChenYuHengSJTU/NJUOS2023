@@ -126,9 +126,11 @@ void getchild(const char* dir, pid_t pid){
         pid_t child[MAXPROC];
         int cnt = 0;
 
-        if(fp == NULL)
-          perror("open file error");
-
+        if(fp == NULL){
+          // perror("open file error");
+          fprintf(stderr, "cannot open dir %s\n", fp);
+          return;
+        }
         while(fscanf(fp, "%d", &child[cnt]) != EOF){
           cnt++;
         }
