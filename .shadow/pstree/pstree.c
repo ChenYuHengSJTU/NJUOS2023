@@ -150,10 +150,11 @@ void getproc(const char* dir){
             }
             // printf("%*s%s/\n", depth, "", entry->d_name);
             // traverse(entry->d_name, depth + 4);
-            printf("%s ", entry->d_name);
+            // printf("%s ", entry->d_name);
             pid_t pid;
             if(isProc(entry->d_name)){
               pid = atoi(entry->d_name);
+              printf("%s ", entry->d_name);
 
               // printf("traverse to pid[%d]\n", pid);
               // printf("%d ", pid);
