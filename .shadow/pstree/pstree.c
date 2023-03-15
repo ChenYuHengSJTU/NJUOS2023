@@ -17,7 +17,7 @@ struct Proc{
   pid_t* tpid;
 };
 
-struct Proc* procs[MAXPROC];
+struct Proc* procs[MAXPROC << 2];
 
 void print_aux(int t){
 
