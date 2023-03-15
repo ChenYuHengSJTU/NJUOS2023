@@ -152,7 +152,7 @@ void getprocinfo(const char* dir, pid_t pid){
         fprintf(stderr, "cannot open folder %s\n", dir);
     }
 
-    // chdir(dir);
+    chdir(dir);
 
     while((entry = readdir(dp)) != NULL){
         lstat(entry->d_name, &statbuf);
