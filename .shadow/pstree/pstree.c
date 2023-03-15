@@ -161,8 +161,10 @@ void getproc(const char* dir){
               strncpy(procs[pid]->name, entry->d_name, 32);
               
               // read thread 
-              getthread(entry->d_name, pid);
-              getchild(entry->d_name, pid);
+              char procfile[64] = "";
+              sprintf(procfile, "/proc/%s", entry->d_name);
+              getthread(procfile, pid);
+              getchild(procfile, pid);
             }
         }
     }
