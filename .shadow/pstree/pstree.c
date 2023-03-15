@@ -36,7 +36,7 @@ void Print(pid_t pid, int depth){
     sprintf(out, "%s(%d)", procs[pid]->name, pid);
     int tmp = depth + strlen(out);
     // depth += strlen()
-    assert(procs[procs[pid]->cpid[0] != NULL]);
+    assert(procs[procs[pid]->cpid[0]] != NULL);
     // if(procs[procs[pid]->cpid[0]] == NULL)
     //   return;
     // printf("-|-%s(%d)", procs[procs[pid]->cpid[0]]->name, procs[pid]->cpid[0]);
