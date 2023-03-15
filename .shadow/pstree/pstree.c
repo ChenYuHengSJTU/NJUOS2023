@@ -84,6 +84,7 @@ void getthread(const char* dir, pid_t pid){
     for(int i = 0;i < cnt;++i)
       printf("%d ", procs[pid]->tpid[i]);
 
+    printf("\n");
     fflush(stdout);
 }
 
