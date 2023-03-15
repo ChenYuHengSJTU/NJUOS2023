@@ -122,13 +122,15 @@ void getchild(const char* dir, pid_t pid){
     lstat(entry->d_name, &statbuf);
     // if(S_ISREG(statbuf.st_mode)){
       if(strcmp(entry->d_name, "children") == 0){
-        FILE * fp = fopen(entry->d_name, "r");
+        char* filename[512] = "";
+        sprintf("%s/children", entry->d_name);
+        FILE * fp = fopen(filename, "r");
         pid_t child[MAXPROC];
         int cnt = 0;
 
         if(fp == NULL){
           // perror("open file error");
-          fprintf(stderr, "cannot open dir %s\n", entry->d_name);
+          fprintf(stderr, "cannot open file %s\n", entry->d_name);
           return;
         }
         
