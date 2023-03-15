@@ -90,9 +90,10 @@ void getthread(const char* dir, pid_t pid){
 void getchild(const char* dir, pid_t pid){
   char task[64] = "";
 
-  strncpy(task, dir, 32);
-  strncat(task, "task\0", 5);
-  strncat(task, itoa(pid), 5);
+  sprintf(task, "%s/task/%d\0", dir, pid);
+  // strncpy(task, dir, 32);
+  // strncat(task, "task\0", 5);
+  // strncat(task, itoa(pid), 5);
   
   DIR* dp = NULL;
   struct dirent* entry;
