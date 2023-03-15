@@ -14,6 +14,7 @@ struct Proc{
   // int pid;
   char name[32];
   int childnum;
+  int threadnum;
   pid_t* cpid;
   pid_t* tpid;
 };
@@ -83,6 +84,7 @@ void getthread(const char* dir, pid_t pid){
     }
 
     procs[pid]->tpid = (pid_t*)malloc(sizeof(pid_t) * cnt);
+    procs[pid]->threadnum = cnt;
     if(procs[pid]->tpid == NULL)
       perror("get thread malloc error");
 
@@ -130,7 +132,10 @@ void getchild(const char* dir, pid_t pid){
         }
 
         procs[pid]->cpid = (pid_t*)malloc(sizeof(pid_t) * cnt);
+        procs[pid]->childnum = cnt;
         memcpy(procs[pid]->cpid, child, cnt * sizeof(pid_t));
+
+        return;
       }
     }
   }
