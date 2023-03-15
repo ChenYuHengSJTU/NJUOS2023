@@ -26,7 +26,7 @@ void print_aux(int t){
 }
 
 void Print(pid_t pid, int depth){
-  printf("%*s(%d)", depth, procs[pid]->name, pid);
+  printf("%*s%s(%d)", depth, "", procs[pid]->name, pid);
   
   if(procs[pid]->cpid != NULL){
     int sz = procs[pid]->childnum;
