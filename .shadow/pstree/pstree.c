@@ -169,10 +169,12 @@ void getprocinfo(const char* dir, pid_t pid){
                 fprintf(stderr, "cannot open file %s/%s\n", dir, entry->d_name);
             }
 
-            char info[1024] = "";
+            char info[32] = "";
             int pid, ppid;
             char ch;
             fscanf(fp, "%d (%[^)]) %c %d", &pid, info, &ch, &ppid);
+
+            strncpy(procs[pid]->name, info, 32);
 
             fclose(fp);
           }
@@ -217,11 +219,12 @@ void getproc(const char* dir){
               procs[pid] = (struct Proc*)malloc(sizeof(struct Proc));
               assert(procs[pid] != NULL);
 
-              strncpy(procs[pid]->name, entry->d_name, 32);
+              // strncpy(procs[pid]->name, entry->d_name, 32);
               
               // read thread 
               char procfile[512] = "";
               sprintf(procfile, "/proc/%s", entry->d_name);
+              getprocinfo(procfile, pid);
               getthread(procfile, pid);
               getchild(procfile, pid);
             }
