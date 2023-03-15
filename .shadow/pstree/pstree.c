@@ -61,6 +61,7 @@ void getthread(const char* dir, pid_t pid){
     
     if(dp == NULL){
         fprintf(stderr, "cannot open folder %s\n", task);
+        return;
     }
 
     pid_t thread[MAXPROC];
@@ -114,6 +115,7 @@ void getchild(const char* dir, pid_t pid){
     
   if(dp == NULL){
       fprintf(stderr, "cannot open folder %s\n", task);
+      return;
   }
 
   while((entry = readdir(dp)) != NULL){
@@ -135,6 +137,8 @@ void getchild(const char* dir, pid_t pid){
         procs[pid]->childnum = cnt;
         memcpy(procs[pid]->cpid, child, cnt * sizeof(pid_t));
 
+        printf("pid[%d] has %d children\n", pid, cnt);
+        fflush(stdout);
         return;
       }
     }
@@ -150,6 +154,7 @@ void getprocinfo(const char* dir, pid_t pid){
     
     if(dp == NULL){
         fprintf(stderr, "cannot open folder %s\n", dir);
+        return;
     }
 
     // chdir(dir);
@@ -198,6 +203,7 @@ void getproc(const char* dir){
     
     if(dp == NULL){
         fprintf(stderr, "cannot open folder %s\n", dir);
+        return;
     }
 
     // chdir(dir);
