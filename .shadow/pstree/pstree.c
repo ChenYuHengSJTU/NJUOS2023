@@ -32,7 +32,10 @@ void Print(pid_t pid, int depth){
   // printf("%*s%s(%d)", -depth, "", procs[pid]->name, pid);
   if(procs[pid]->cpid != NULL){
     int sz = procs[pid]->childnum;
-    depth += strlen(procs[pid]->name);
+    char out[1024] = "";
+    sprintf(out, "%s(%d)", procs[pid]->name, pid);
+    depth += strlen(out);
+    // depth += strlen()
     if(procs[procs[pid]->cpid[0]] == NULL)
       return;
     printf("--%s(%d)", procs[procs[pid]->cpid[0]]->name, procs[pid]->cpid[0]);
