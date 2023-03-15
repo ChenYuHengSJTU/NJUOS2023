@@ -22,16 +22,19 @@ struct Proc{
 struct Proc* procs[MAXPROC << 2];
 
 void print_aux(int t){
-
+  for(int i = 0;i < t;++i)
+    printf("-");
+  fflush(stdout);
 }
 
 void Print(pid_t pid, int depth){
-  printf("%*s%s(%d)", -depth, "", procs[pid]->name, pid);
-  
+  printf("%s(%d)", procs[pid]->name, pid);
+  // printf("%*s%s(%d)", -depth, "", procs[pid]->name, pid);
+  print_aux(depth);
   if(procs[pid]->cpid != NULL){
     int sz = procs[pid]->childnum;
     for(int i = 0;i < sz;++i){
-      Print(procs[pid]->cpid[i], depth + 32);
+      Print(procs[pid]->cpid[i], depth + 2);
       printf("\n");
       fflush(stdout);
     }  
