@@ -130,7 +130,7 @@ void getchild(const char* dir, pid_t pid){
 
         if(fp == NULL){
           // perror("open file error");
-          fprintf(stderr, "cannot open file %s\n", entry->d_name);
+          fprintf(stderr, "cannot open file %s\n", filename);
           return;
         }
         
