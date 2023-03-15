@@ -31,7 +31,7 @@ void Print(pid_t pid, int depth){
   if(procs[pid]->cpid != NULL){
     int sz = procs[pid]->childnum;
     for(int i = 0;i < sz;++i){
-      Print(procs[pid]->cpid[i], depth + 2);
+      Print(procs[pid]->cpid[i], depth + 32);
       printf("\n");
       fflush(stdout);
     }  
