@@ -174,7 +174,7 @@ int main(int argc, char *argv[]) {
   }
   assert(!argv[argc]);
 
-
+  getproc("/proc");
 
   return 0;
 }
