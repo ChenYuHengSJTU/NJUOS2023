@@ -42,7 +42,7 @@ void Print(pid_t pid, int depth){
     Print(procs[pid]->cpid[0], 0);
     for(int i = 1;i < sz;++i){
       print_aux(tmp);
-      printf("--");
+      printf("-|-");
       Print(procs[pid]->cpid[i], depth + strlen(out));
       printf("\n");
       fflush(stdout);
