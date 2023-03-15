@@ -69,7 +69,8 @@ void getthread(const char* dir, pid_t pid){
             pid_t tpid;
             if(isProc(entry->d_name)){
               tpid = atoi(entry->d_name);
-              thread[cnt++] = tpid;
+              if(tpid != pid)
+                thread[cnt++] = tpid;
             }
         }
     }
