@@ -155,6 +155,7 @@ void getproc(const char* dir){
               pid = atoi(entry->d_name);
 
               printf("traverse to pid[%d]\n", pid);
+              fflush(stdout);
 
               procs[pid] = (struct Proc*)malloc(sizeof(struct Proc));
               assert(procs[pid] != NULL);
