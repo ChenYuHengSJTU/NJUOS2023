@@ -8,7 +8,7 @@
 #include <assert.h>
 #include <stdbool.h>
 
-#define MAXPROC 32768
+#define MAXPROC 4194303
 struct Proc{
   // int pid;
   char name[32];
