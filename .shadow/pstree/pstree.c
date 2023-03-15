@@ -123,7 +123,7 @@ void getchild(const char* dir, pid_t pid){
     // if(S_ISREG(statbuf.st_mode)){
       if(strcmp(entry->d_name, "children") == 0){
         char filename[512] = "";
-        sprintf(filename, "%s/children", dir);
+        sprintf(filename, "%s/children", task);
         FILE * fp = fopen(filename, "r");
         pid_t child[MAXPROC];
         int cnt = 0;
