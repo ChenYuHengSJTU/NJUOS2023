@@ -142,7 +142,7 @@ void getproc(const char* dir){
 
     while((entry = readdir(dp)) != NULL){
         lstat(entry->d_name, &statbuf);
-        printf("%s\n", entry->d_off);
+        // printf("%s\n", entry->d_name);
         if(S_ISDIR(statbuf.st_mode)){
             if(strcmp(".", entry->d_name) == 0 || strcmp("..", entry->d_name) == 0){
                 continue;
