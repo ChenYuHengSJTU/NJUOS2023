@@ -81,12 +81,12 @@ void getthread(const char* dir, pid_t pid){
 
     memcpy(procs[pid]->tpid, thread, sizeof(int) * cnt);
 
-    printf("pid[%d] has following threads:", cnt);
-    for(int i = 0;i < cnt;++i)
-      printf("%d ", procs[pid]->tpid[i]);
+    // printf("pid[%d] has following threads:", cnt);
+    // for(int i = 0;i < cnt;++i)
+    //   printf("%d ", procs[pid]->tpid[i]);
 
-    printf("\n");
-    fflush(stdout);
+    // printf("\n");
+    // fflush(stdout);
 }
 
 void getchild(const char* dir, pid_t pid){
@@ -155,7 +155,8 @@ void getproc(const char* dir){
             if(isProc(entry->d_name)){
               pid = atoi(entry->d_name);
 
-              printf("traverse to pid[%d]\n", pid);
+              // printf("traverse to pid[%d]\n", pid);
+              printf("%d ", pid);
               fflush(stdout);
 
               procs[pid] = (struct Proc*)malloc(sizeof(struct Proc));
