@@ -52,7 +52,7 @@ void getthread(const char* dir, pid_t pid){
     dp = opendir(task);
     
     if(dp == NULL){
-        fprintf(stderr, "cannot open folder %s\n", dir);
+        fprintf(stderr, "cannot open folder %s\n", task);
     }
 
     pid_t thread[MAXPROC];
@@ -102,7 +102,7 @@ void getchild(const char* dir, pid_t pid){
   dp = opendir(task);
     
   if(dp == NULL){
-      fprintf(stderr, "cannot open folder %s\n", dir);
+      fprintf(stderr, "cannot open folder %s\n", task);
   }
 
   while((entry = readdir(dp)) != NULL){
