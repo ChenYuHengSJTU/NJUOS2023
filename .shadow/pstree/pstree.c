@@ -31,7 +31,7 @@ void Print(pid_t pid, int depth){
 bool isProc(const char* pid){
   int len = strlen(pid);
 
-  for(int i = 0;i < len;+i){
+  for(int i = 0;i < len;++i){
     if(pid[i] < '0' || pid[i] > '9')
       return false;
   }
@@ -142,6 +142,7 @@ void getproc(const char* dir){
 
     while((entry = readdir(dp)) != NULL){
         lstat(entry->d_name, &statbuf);
+        printf("%s\n", entry->d_off);
         if(S_ISDIR(statbuf.st_mode)){
             if(strcmp(".", entry->d_name) == 0 || strcmp("..", entry->d_name) == 0){
                 continue;
