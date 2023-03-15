@@ -161,7 +161,8 @@ void getchild(const char* dir, pid_t pid){
         while(fscanf(fp, "%d", &child[cnt]) != EOF){
           cnt++;
         }
-
+        if(cnt == 0)
+          return;
         procs[pid]->cpid = (pid_t*)malloc(sizeof(pid_t) * cnt);
         procs[pid]->childnum = cnt;
         memcpy(procs[pid]->cpid, child, cnt * sizeof(pid_t));
