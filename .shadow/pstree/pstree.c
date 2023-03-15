@@ -47,7 +47,7 @@ void getthread(const char* dir, pid_t pid){
     char task[64] = "";
     strncpy(task, dir, 32);
 
-    strncat(task, "task\0", 5);
+    strncat(task, "/task", 5);
 
     dp = opendir(task);
     
