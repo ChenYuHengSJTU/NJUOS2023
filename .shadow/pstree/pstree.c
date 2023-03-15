@@ -199,5 +199,6 @@ int main(int argc, char *argv[]) {
 
   getproc("/proc");
 
+  Print(1, 0);
   return 0;
 }
