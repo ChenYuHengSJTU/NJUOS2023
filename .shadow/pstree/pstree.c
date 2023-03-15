@@ -141,6 +141,48 @@ void getchild(const char* dir, pid_t pid){
   }
 }
 
+void getprocinfo(const char* dir, pid_t pid){
+    DIR* dp = NULL;
+    struct dirent* entry;
+    struct stat statbuf;
+
+    dp = opendir(dir);
+    
+    if(dp == NULL){
+        fprintf(stderr, "cannot open folder %s\n", dir);
+    }
+
+    // chdir(dir);
+
+    while((entry = readdir(dp)) != NULL){
+        lstat(entry->d_name, &statbuf);
+        if(S_ISDIR(statbuf.st_mode)){
+            if(strcmp(".", entry->d_name) == 0 || strcmp("..", entry->d_name) == 0){
+                continue;
+            }
+            
+          if(strcmp(entry->d_name, "stat") == 0){
+            FILE* fp;
+            fp = fopen(entry->d_name, "r");
+
+            if(fp == NULL){
+                fprintf(stderr, "cannot open file %s/%s\n", dir, entry->d_name);
+            }
+
+            char info[1024] = "";
+            int pid, ppid;
+            char ch;
+            fscanf(fp, "%d (%[^)]) %c %d", &pid, info, &ch, &ppid);
+
+            fclose(fp);
+          }
+        }
+    }
+
+    // chdir("..");
+    closedir(dp);
+}
+
 void getproc(const char* dir){
     DIR* dp = NULL;
     struct dirent* entry;
