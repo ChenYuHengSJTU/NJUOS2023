@@ -2,11 +2,11 @@
 #include <amdev.h>
 #include <klib.h>
 #include <klib-macros.h>
-#include "pictures/p3.h"
+#include "pictures/p2.h"
 
 #define SIDE 2
-#define P p3_jpeg
-#define Len p3_jpeg_len
+#define P pictures_p2_bmp
+#define Len pictures_p2_bmp_len
 
 static int w, h;  // Screen size
 
