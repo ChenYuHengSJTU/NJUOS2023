@@ -4,7 +4,7 @@
 #include <klib-macros.h>
 #include "pictures/p1.h"
 
-#define SIDE 4
+#define SIDE 2
 
 static int w, h;  // Screen size
 
@@ -45,8 +45,8 @@ void splash() {
   h = info.height;
   printf("w:%d\th:%d\n", w, h);
   int i = 0;
-  for (int x = 0; x * SIDE <= w; x ++) {
-    for (int y = 0; y * SIDE <= h; y++) {
+  for (int x = 0; x * SIDE <= h; x ++) {
+    for (int y = 0; y * SIDE <= w; y++) {
       if(i + 2 > p1_webp_len){
         printf("don't fit\n");
         return;
@@ -55,7 +55,7 @@ void splash() {
       i += 3;
       unsigned rgb = (red << 16) | (green << 8) | blue;
       if ((x & 1) ^ (y & 1)) {
-        draw_tile(x * SIDE, y * SIDE, SIDE, SIDE, rgb); // white
+        draw_tile(y * SIDE, x * SIDE, SIDE, SIDE, rgb); // white
       }
     }
   }
