@@ -4,10 +4,11 @@
 #include <klib-macros.h>
 #include "pictures/p2.h"
 #include "pictures/p1.h"
+#include "pictures/p3.h"
 
 #define SIDE 2
-#define P pictures_p1_bmp
-#define Len pictures_p1_bmp_len
+#define P pictures_p3_bmp
+#define Len pictures_p3_bmp_len
 
 static int w, h;  // Screen size
 
