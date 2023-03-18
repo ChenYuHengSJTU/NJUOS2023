@@ -47,8 +47,10 @@ void splash() {
   int i = 0;
   for (int x = 0; x * SIDE <= w; x ++) {
     for (int y = 0; y * SIDE <= h; y++) {
-      if(i + 2 > p1_webp_len)
+      if(i + 2 > p1_webp_len){
+        printf("don't fit\n");
         return;
+      }
       unsigned red = p1_webp[i], green = p1_webp[i + 1], blue = p1_webp[i + 2];
       i += 3;
       unsigned rgb = (red << 16) | (green << 8) | blue;
