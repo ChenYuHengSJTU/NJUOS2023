@@ -2,6 +2,7 @@
 #include <amdev.h>
 #include <klib.h>
 #include <klib-macros.h>
+#include "pictures/p1.h"
 
 #define SIDE 16
 
@@ -42,11 +43,16 @@ void splash() {
   ioe_read(AM_GPU_CONFIG, &info);
   w = info.width;
   h = info.height;
-
+  int i = 0;
   for (int x = 0; x * SIDE <= w; x ++) {
     for (int y = 0; y * SIDE <= h; y++) {
+      if(i + 2 > p1_webp_len)
+        return;
+      unsigned red = p1_webp[i], green = p1_webp[i + 1], blue = p1_webp[i + 2];
+      i += 3;
+      unsigned rgb = (red << 16) | (green << 8) | blue;
       if ((x & 1) ^ (y & 1)) {
-        draw_tile(x * SIDE, y * SIDE, SIDE, SIDE, 0xffffff); // white
+        draw_tile(x * SIDE, y * SIDE, SIDE, SIDE, rgb); // white
       }
     }
   }
