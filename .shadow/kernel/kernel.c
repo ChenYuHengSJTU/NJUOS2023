@@ -2,9 +2,11 @@
 #include <amdev.h>
 #include <klib.h>
 #include <klib-macros.h>
-#include "pictures/p1.h"
+#include "pictures/p2.h"
 
 #define SIDE 2
+#define P p2_png
+#define Len p2_png_len
 
 static int w, h;  // Screen size
 
@@ -47,11 +49,11 @@ void splash() {
   int i = 0;
   for (int x = 0; x * SIDE <= w; x ++) {
     for (int y = 0; y * SIDE <= h; y++) {
-      if(i + 2 > p1_webp_len){
+      if(i + 2 > Len){
         printf("don't fit\n");
         return;
       }
-      unsigned red = (unsigned)p1_webp[i], green = (unsigned)p1_webp[i + 1], blue = (unsigned)p1_webp[i + 2];
+      unsigned red = (unsigned)P[i], green = (unsigned)P[i + 1], blue = (unsigned)P[i + 2];
       i += 3;
       unsigned rgb = (red << 16) | (green << 8) | blue;
       // if ((x & 1) ^ (y & 1)) {
