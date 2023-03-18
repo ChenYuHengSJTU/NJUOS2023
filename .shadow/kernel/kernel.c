@@ -54,9 +54,9 @@ void splash() {
       unsigned red = p1_webp[i], green = p1_webp[i + 1], blue = p1_webp[i + 2];
       i += 3;
       unsigned rgb = (red << 16) | (green << 8) | blue;
-      if ((x & 1) ^ (y & 1)) {
+      // if ((x & 1) ^ (y & 1)) {
         draw_tile(y * SIDE, x * SIDE, SIDE, SIDE, rgb); // white
-      }
+      // }
     }
   }
 }
