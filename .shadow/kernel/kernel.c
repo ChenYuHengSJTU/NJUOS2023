@@ -46,7 +46,7 @@ void splash() {
   w = info.width;
   h = info.height;
   printf("w:%d\th:%d\n", w, h);
-  int i = 0;
+  int i = 4;
   for (int x = 0; x * SIDE <= w; x ++) {
     for (int y = 0; y * SIDE <= h; y++) {
       if(i + 2 > Len){
