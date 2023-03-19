@@ -48,7 +48,15 @@ void splash() {
   w = info.width;
   h = info.height;
   printf("w:%d\th:%d\n", w, h);
-  int i = 54;
+  // int i = 54;
+  unsigned offset = *(unsigned*)(P + 0xa);
+  unsigned i = offset;
+  unsigned W = *(unsigned*)(P + 0x12), H = *(unsigned*)(P + 0x16);
+  unsigned bitcount = (unsigned)(((unsigned)(P[0x1c]) << 8) | ((unsigned)(P[0x1d])));
+  unsigned bytecount = bitcount >> 3;
+
+  printf("offset: %d\tW: %d\tH: %d\tbytecount: %d\n", offset, W, H, bytecount);
+
   for (int x = 0; x * SIDE <= w; x ++) {
     for (int y = 0; y * SIDE <= h; y++) {
       if(i + 2 > Len){
@@ -56,7 +64,7 @@ void splash() {
         return;
       }
       unsigned red = (unsigned)P[i], green = (unsigned)P[i + 1], blue = (unsigned)P[i + 2];
-      i += 3;
+      i += bytecount;
       unsigned rgb = (red << 16) | (green << 8) | blue;
       // if ((x & 1) ^ (y & 1)) {
         draw_tile(x * SIDE, y * SIDE, SIDE, SIDE, rgb); // white
