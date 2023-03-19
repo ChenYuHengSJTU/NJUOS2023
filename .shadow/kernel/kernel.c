@@ -55,7 +55,7 @@ void splash() {
   unsigned bitcount = (unsigned)(((unsigned)(P[0x1c]) << 8) | ((unsigned)(P[0x1d])));
   unsigned bytecount = bitcount >> 3;
 
-  printf("offset: %d\tW: %d\tH: %d\tbytecount: %d\n", offset, W, H, bytecount);
+  printf("offset: %d\tW: %d\tH: %d\tbitcount: %d\tbytecount: %d\n", offset, W, H, bitcount, bytecount);
 
   for (int x = 0; x * SIDE <= w; x ++) {
     for (int y = 0; y * SIDE <= h; y++) {
