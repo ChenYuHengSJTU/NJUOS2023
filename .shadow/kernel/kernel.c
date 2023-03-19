@@ -52,7 +52,7 @@ void splash() {
   unsigned offset = *(unsigned*)(P + 0xa);
   unsigned i = offset;
   unsigned W = *(unsigned*)(P + 0x12), H = *(unsigned*)(P + 0x16);
-  unsigned bitcount = (unsigned)(((unsigned)(P[0x1c]) << 8) | ((unsigned)(P[0x1d])));
+  unsigned bitcount = (unsigned)(((unsigned)(P[0x1c])) | ((unsigned)(P[0x1d]) << 8));
   unsigned bytecount = bitcount >> 3;
 
   printf("offset: %d\tW: %d\tH: %d\tbitcount: %d\tbytecount: %d\n", offset, W, H, bitcount, bytecount);
