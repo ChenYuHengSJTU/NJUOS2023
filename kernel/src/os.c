@@ -1,0 +1,85 @@
+#include <common.h>
+
+void stress_test();
+
+static void os_init() {
+  pmm->init();
+}
+
+static void os_run() {
+  for (const char *s = "Hello World from CPU #*\n"; *s; s++) {
+    putch(*s == '*' ? '0' + cpu_current() : *s);
+  }
+  // printf("ready to test?\n");
+  stress_test();
+  // while (1){
+    // stress_test();
+  // }
+}
+
+MODULE_DEF(os) = {
+  .init = os_init,
+  .run  = os_run,
+};
+
+enum ops { OP_ALLOC = 1, OP_FREE };
+struct malloc_op {
+  enum ops type;
+  union { size_t sz; void *addr; };
+};
+
+uint64_t random_uint64(void) {
+    uint64_t result;
+    unsigned char ok;
+    __asm__ __volatile__("rdrand %0; setc %1"
+                         : "=r" (result), "=qm" (ok));
+    if (ok) {
+        return result;
+    } else {
+        // RDRAND failed, fall back to something else
+        printf("generate random number failed\n");
+        return 0;
+    }
+}
+
+#define MAXOP 10000
+#define MAXSZ 100000000
+
+struct malloc_op op_stack[MAXOP];
+struct malloc_op gen[MAXOP];
+int top = -1;
+int cnt = 0;
+
+struct malloc_op random_op(){
+    int type = random_uint64() % 2;
+    struct malloc_op op;
+    if(type && top >= 0){
+        op = op_stack[top--];
+    }
+    else{
+        op.type = OP_ALLOC;
+        op.sz = random_uint64() % MAXSZ;
+    }
+    return op;
+}
+
+void stress_test() {
+  printf("begin test\n");
+  while (1) {
+    struct malloc_op op = random_op();
+    printf("%d\n", op.sz);
+    switch (op.type) {
+      case OP_ALLOC: 
+      printf("kalloc\n");
+      op.addr = pmm->alloc(op.sz); 
+      op.type = OP_FREE;
+      op_stack[++top] = op;
+      break;
+      case OP_FREE:  
+      printf("kfree\n");
+      pmm->free(op.addr); break;
+      default:
+      printf("error\n");
+    }
+  }
+}
