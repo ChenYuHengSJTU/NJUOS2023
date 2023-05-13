@@ -2,8 +2,13 @@
 #include <amdev.h>
 #include <klib.h>
 #include <klib-macros.h>
+#include "pictures/p2.h"
+#include "pictures/p1.h"
+#include "pictures/p3.h"
 
-#define SIDE 16
+#define SIDE 2
+#define P pictures_p3_bmp
+#define Len pictures_p3_bmp_len
 
 static int w, h;  // Screen size
 
@@ -42,12 +47,28 @@ void splash() {
   ioe_read(AM_GPU_CONFIG, &info);
   w = info.width;
   h = info.height;
+  printf("w:%d\th:%d\n", w, h);
+  // int i = 54;
+  unsigned offset = *(unsigned*)(P + 0xa);
+  unsigned i = offset;
+  unsigned W = *(unsigned*)(P + 0x12), H = *(unsigned*)(P + 0x16);
+  unsigned bitcount = (unsigned)(((unsigned)(P[0x1c])) | ((unsigned)(P[0x1d]) << 8));
+  unsigned bytecount = bitcount >> 3;
+
+  printf("offset: %d\tW: %d\tH: %d\tbitcount: %d\tbytecount: %d\n", offset, W, H, bitcount, bytecount);
 
   for (int x = 0; x * SIDE <= w; x ++) {
     for (int y = 0; y * SIDE <= h; y++) {
-      if ((x & 1) ^ (y & 1)) {
-        draw_tile(x * SIDE, y * SIDE, SIDE, SIDE, 0xffffff); // white
+      if(i + 2 > Len){
+        printf("don't fit\n");
+        return;
       }
+      unsigned red = (unsigned)P[i], green = (unsigned)P[i + 1], blue = (unsigned)P[i + 2];
+      i += bytecount;
+      unsigned rgb = (red << 16) | (green << 8) | blue;
+      // if ((x & 1) ^ (y & 1)) {
+        draw_tile(x * SIDE, y * SIDE, SIDE, SIDE, rgb); // white
+      // }
     }
   }
 }
